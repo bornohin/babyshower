@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My RSVP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            overscroll-behavior: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100dvh;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overscroll-behavior: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-nav {
+            margin-bottom: 20px;
+        }
+
+        .header-nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .header-nav a:hover {
+            text-decoration: underline;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="email"],
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .alert.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+
+        .lookup-section {
+            margin-bottom: 30px;
+        }
+
+        .lookup-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lookup-group input {
+            flex: 1;
+        }
+
+        .lookup-group button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lookup-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .edit-form {
+            display: none;
+        }
+
+        .edit-form.show {
+            display: block;
+        }
+
+        .rsvp-display {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .rsvp-display.show {
+            display: block;
+        }
+
+        .rsvp-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .rsvp-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .rsvp-label {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .rsvp-value {
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.yes {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.no {
+            background: #fee2e2;
+            color: #7f1d1d;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-update {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-edit {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-edit:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-withdraw {
+            background: #fee2e2;
+            color: #7f1d1d;
+        }
+
+        .btn-withdraw:hover {
+            background: #fecaca;
+        }
+
+        .btn-back {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-back:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-calendar {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-calendar:hover {
+            background: #45a049;
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            font-size: 14px;
+            display: none;
+        }
+
+        .guest-note {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        input[type="number"] {
+            max-width: 100px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .lookup-group {
+                flex-direction: column;
+            }
+
+            .lookup-group button {
+                width: 100%;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-nav">
+                <a href="/">← Back to Home</a>
+            </div>
+            <h1>🔍 My RSVP</h1>
+            <p>View and manage your RSVP</p>
+        </div>
+
+        <div id="alert" class="alert"></div>
+
+        <div class="lookup-section">
+            <label for="lookupEmail">Enter Your Email Address</label>
+            <div class="lookup-group">
+                <input 
+                    type="email" 
+                    id="lookupEmail" 
+                    placeholder="your@email.com"
+                    required
+                >
+                <button onclick="searchRsvp()">Search</button>
+            </div>
+        </div>
+
+        <div id="rsvpDisplay" class="rsvp-display">
+            <div class="rsvp-item">
+                <div class="rsvp-label">Name</div>
+                <div class="rsvp-value" id="displayName"></div>
+            </div>
+            <div class="rsvp-item">
+                <div class="rsvp-label">Attendance Status</div>
+                <div class="rsvp-value">
+                    <span id="displayStatus" class="status-badge"></span>
+                </div>
+            </div>
+            <div class="rsvp-item">
+                <div class="rsvp-label">Number of Adults</div>
+                <div class="rsvp-value" id="displayAdults"></div>
+            </div>
+            <div class="rsvp-item">
+                <div class="rsvp-label">Number of Kids</div>
+                <div class="rsvp-value" id="displayKids"></div>
+            </div>
+            <div class="rsvp-item">
+                <div class="rsvp-label">Dietary Restrictions</div>
+                <div class="rsvp-value" id="displayDietary"></div>
+            </div>
+            <div class="rsvp-item">
+                <div class="rsvp-label">Comments</div>
+                <div class="rsvp-value" id="displayComments"></div>
+            </div>
+        </div>
+
+        <form id="editForm" class="edit-form">
+            <div class="form-group">
+                <label for="editName">Your Name *</label>
+                <input 
+                    type="text" 
+                    id="editName" 
+                    name="name" 
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="editEmail">Email Address *</label>
+                <input 
+                    type="email" 
+                    id="editEmail" 
+                    name="email" 
+                    required
+                    readonly
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Will you be attending? *</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input 
+                            type="radio" 
+                            name="attending" 
+                            value="yes" 
+                            required
+                        >
+                        Yes, I'll be there!
+                    </label>
+                    <label class="radio-option">
+                        <input 
+                            type="radio" 
+                            name="attending" 
+                            value="no" 
+                            required
+                        >
+                        Sorry, can't make it
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editGuests">Number of Adults</label>
+                <input 
+                    type="number" 
+                    id="editAdults" 
+                    name="adults" 
+                    min="0" 
+                    max="20"
+                    disabled
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="editKids">Number of Kids</label>
+                <input 
+                    type="number" 
+                    id="editKids" 
+                    name="kids" 
+                    min="0" 
+                    max="20"
+                    disabled
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="editDietary">Dietary Restrictions</label>
+                <input 
+                    type="text" 
+                    id="editDietary" 
+                    name="dietary" 
+                    placeholder="e.g., vegetarian, gluten-free, allergies"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="editComments">Additional Comments</label>
+                <textarea 
+                    id="editComments" 
+                    name="comments" 
+                    placeholder="Any special requests or messages for us?"
+                ></textarea>
+            </div>
+
+            <div class="loading" id="loading">Updating your RSVP...</div>
+
+            <div class="button-group">
+                <button type="button" class="btn-back" onclick="cancelEdit()">Cancel</button>
+                <button type="submit" class="btn-update">Update RSVP</button>
+            </div>
+        </form>
+
+        <div id="actionButtons" style="display: none; margin-top: 20px;">
+            <button class="btn-edit" onclick="toggleEdit()" style="width: 100%; margin-bottom: 10px;">✏️ Edit Your RSVP</button>
+            <button class="btn-calendar" onclick="downloadCalendar()" style="width: 100%; margin-bottom: 10px;">📅 Save Event to Calendar</button>
+            <button class="btn-withdraw" onclick="withdrawRsvp()" style="width: 100%;">❌ Withdraw RSVP</button>
+        </div>
+    </div>
+
+    <script>
+        let currentEmail = '';
+
+        // Handle guest field enable/disable in edit form
+        const editAttendingRadios = document.querySelectorAll('input[name="editAttending"]');
+        const editAdultsInput = document.getElementById('editAdults');
+        const editKidsInput = document.getElementById('editKids');
+
+        function toggleEditGuestFields() {
+            const isAttending = document.querySelector('input[name="editAttending"]:checked')?.value === 'yes';
+            editAdultsInput.disabled = !isAttending;
+            editKidsInput.disabled = !isAttending;
+            
+            // Clear values when disabled
+            if (!isAttending) {
+                editAdultsInput.value = 0;
+                editKidsInput.value = 0;
+            }
+        }
+
+        editAttendingRadios.forEach(radio => {
+            radio.addEventListener('change', toggleEditGuestFields);
+        });
+
+        async function searchRsvp() {
+            const email = document.getElementById('lookupEmail').value.trim();
+            if (!email) {
+                showAlert('Please enter your email address', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/rsvp/${email}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    const rsvp = data.rsvp;
+                    currentEmail = email;
+
+                    // Display RSVP
+                    document.getElementById('displayName').textContent = rsvp.name;
+                    document.getElementById('displayStatus').textContent = rsvp.attending ? '✓ Yes' : '✗ No';
+                    document.getElementById('displayStatus').className = `status-badge ${rsvp.attending ? 'yes' : 'no'}`;
+                    document.getElementById('displayAdults').textContent = rsvp.adults || 'Not specified';
+                    document.getElementById('displayKids').textContent = rsvp.kids || 'Not specified';
+                    document.getElementById('displayDietary').textContent = rsvp.dietary || 'None';
+                    document.getElementById('displayComments').textContent = rsvp.comments || '—';
+
+                    // Populate edit form
+                    document.getElementById('editName').value = rsvp.name;
+                    document.getElementById('editEmail').value = rsvp.email;
+                    document.getElementById('editAdults').value = rsvp.adults || 0;
+                    document.getElementById('editKids').value = rsvp.kids || 0;
+                    document.getElementById('editDietary').value = rsvp.dietary || '';
+                    document.getElementById('editComments').value = rsvp.comments || '';
+                    document.querySelector(`input[name="attending"][value="${rsvp.attending ? 'yes' : 'no'}"]`).checked = true;
+
+                    document.getElementById('rsvpDisplay').classList.add('show');
+                    document.getElementById('actionButtons').style.display = 'block';
+                    document.getElementById('editForm').classList.remove('show');
+
+                    showAlert('RSVP found! You can view or edit your response below.', 'info');
+                } else {
+                    showAlert('No RSVP found for this email address. Please submit a new one.', 'error');
+                    document.getElementById('rsvpDisplay').classList.remove('show');
+                    document.getElementById('actionButtons').style.display = 'none';
+                    document.getElementById('editForm').classList.remove('show');
+                }
+            } catch (error) {
+                showAlert('Error searching for RSVP', 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        function toggleEdit() {
+            document.getElementById('editForm').classList.toggle('show');
+            document.getElementById('actionButtons').style.display = document.getElementById('editForm').classList.contains('show') ? 'none' : 'block';
+            
+            // Update guest field disabled state when form is shown
+            if (document.getElementById('editForm').classList.contains('show')) {
+                toggleEditGuestFields();
+            }
+        }
+
+        function cancelEdit() {
+            document.getElementById('editForm').classList.remove('show');
+            document.getElementById('actionButtons').style.display = 'block';
+        }
+
+        document.getElementById('editForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(document.getElementById('editForm'));
+            const attending = formData.get('attending') === 'yes';
+            const adults = parseInt(formData.get('adults')) || 0;
+            const kids = parseInt(formData.get('kids')) || 0;
+
+            // Validate no negative numbers
+            if (adults < 0 || kids < 0) {
+                showAlert('Please enter valid numbers (no negative values)', 'error');
+                return;
+            }
+
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                attending: attending,
+                adults: adults,
+                kids: kids,
+                dietary: formData.get('dietary'),
+                comments: formData.get('comments')
+            };
+
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                const response = await fetch('/api/rsvp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    showAlert('Your RSVP has been updated successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.href = `/splash?attending=${attending ? 'yes' : 'no'}`;
+                    }, 1500);
+                } else {
+                    const error = await response.json();
+                    showAlert(error.error || 'Failed to update RSVP', 'error');
+                }
+            } catch (error) {
+                showAlert('Error updating RSVP', 'error');
+                console.error('Error:', error);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+
+        async function withdrawRsvp() {
+            if (!confirm('Are you sure you want to withdraw your RSVP? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/rsvp/${currentEmail}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showAlert('Your RSVP has been withdrawn. Redirecting to home...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 2000);
+                } else {
+                    showAlert('Failed to withdraw RSVP', 'error');
+                }
+            } catch (error) {
+                showAlert('Error withdrawing RSVP', 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.getElementById('alert');
+            alertDiv.textContent = message;
+            alertDiv.className = `alert ${type}`;
+            alertDiv.style.display = 'block';
+
+            if (type !== 'error') {
+                setTimeout(() => {
+                    alertDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Allow search on Enter key
+        document.getElementById('lookupEmail').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchRsvp();
+            }
+        });
+
+        function downloadCalendar() {
+            // Trigger download of calendar event
+            const link = document.createElement('a');
+            link.href = '/api/calendar';
+            link.download = 'Baby-Shower-2026.ics';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

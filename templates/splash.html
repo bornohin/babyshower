@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Baby Shower RSVP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            overscroll-behavior: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100dvh;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overscroll-behavior: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .splash-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 60px 40px;
+            text-align: center;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .main-message {
+            color: #555;
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .footer-note {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .footer-note strong {
+            display: block;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .btn-container {
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-calendar {
+            background: #4CAF50;
+        }
+
+        .btn-calendar:hover {
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-home {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-home:hover {
+            background: #e0e0e0;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .countdown {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #999;
+            display: none;
+        }
+
+        .yes-container h1 {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .no-container h1 {
+            background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (max-width: 600px) {
+            .splash-container {
+                padding: 40px 25px;
+            }
+
+            .emoji {
+                font-size: 60px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .main-message {
+                font-size: 16px;
+            }
+
+            .btn-container {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% if attending %}
+        <div class="splash-container yes-container">
+            <div class="emoji">🎉</div>
+            <h1>We are so thrilled you're coming!</h1>
+            <div class="main-message">
+                Your presence means the world to us, and we can't wait to share this special day—and some delicious Bangladeshi food—with you. Thank you for making the time to celebrate this new chapter of our lives. We're counting down the days!
+            </div>
+
+            <div class="footer-note">
+                <strong>P.S.</strong> We know plans can shift. Please prioritize your own needs and schedule—if your circumstances change, you are always welcome to come back to babyshower.tomislam.com at any time to update your RSVP.
+            </div>
+
+            <div class="btn-container">
+                <button class="btn-calendar" onclick="downloadCalendar()">📅 Save to Calendar</button>
+                <button class="btn-home" onclick="redirectHome()">← Return to Home</button>
+            </div>
+        </div>
+    {% else %}
+        <div class="splash-container no-container">
+            <div class="emoji">💙</div>
+            <h1>We will miss you!</h1>
+            <div class="main-message">
+                While we're sad we won't see you at the shower, we completely understand that life gets busy and things come up. Please know that we truly respect your decision and value our friendship above all else. We'll be sure to share photos of the celebration with you!
+            </div>
+
+            <div class="footer-note">
+                <strong>P.S.</strong> We know plans can shift. Please prioritize your own needs and schedule—if your circumstances change, you are always welcome to come back to babyshower.tomislam.com at any time to update your RSVP.
+            </div>
+
+            <div class="btn-container">
+                <button class="btn-calendar" onclick="downloadCalendar()">📅 Save to Calendar</button>
+                <button class="btn-home" onclick="redirectHome()">← Return to Home</button>
+            </div>
+        </div>
+    {% endif %}
+
+    <script>
+        function downloadCalendar() {
+            // Trigger download of calendar event
+            const link = document.createElement('a');
+            link.href = '/api/calendar';
+            link.download = 'Baby-Shower-2026.ics';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function redirectHome() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
