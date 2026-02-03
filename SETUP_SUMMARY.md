@@ -7,7 +7,7 @@ Your Flask app for GCP Cloud Run is ready! Here's what's included:
 ### Core Application Files
 - **[app.py](app.py)** - Flask backend with RSVP API endpoints
 - **[templates/index.html](templates/index.html)** - Beautiful responsive landing page with RSVP form
-- **[requirements.txt](requirements.txt)** - Python dependencies (Flask + Werkzeug)
+- **[requirements.txt](requirements.txt)** - Python dependencies (Flask + gunicorn)
 
 ### Docker & Deployment
 - **[Dockerfile](Dockerfile)** - Optimized for Cloud Run (Python 3.11-slim, non-root user, health checks)
