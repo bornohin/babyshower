@@ -30,6 +30,10 @@ responses = load_responses()
 
 @app.route('/')
 def index():
+    return render_template('intro.html')
+
+@app.route('/welcome')
+def welcome():
     return render_template('welcome.html')
 
 @app.route('/rsvp')
@@ -165,7 +169,7 @@ def get_calendar_event():
         event_date = "20260215"  # February 15, 2026
         event_time = "130000"    # 1:00 PM
         event_location = "209 James River Drive, Hutto, TX 78634"
-        event_description = "Join us for a beautiful celebration of the Baby Shaad tradition!\\nDua and blessings for the mother and baby."
+        event_description = "Join us for a beautiful celebration of the Baby Shaad (shower) tradition!\\nDua and blessings for the mother and baby."
         
         # Create unique event ID (using timestamp)
         now = datetime.now()

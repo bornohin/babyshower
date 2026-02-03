@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baby Shaad - You're Invited!</title>
+    <title>Baby Shower - You're Invited!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Style+Script&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -72,9 +75,10 @@
         }
 
         .welcome-header h1 {
-            font-size: 36px;
+            font-family: 'Style Script', cursive;
+            font-size: 48px;
             margin-bottom: 6px;
-            font-weight: 700;
+            font-weight: 400;
         }
 
         .welcome-header p {
@@ -181,6 +185,22 @@
             border-color: #667eea;
         }
 
+        .btn-registry {
+            background: #FF9900;
+            color: white;
+            border: none;
+        }
+
+        .btn-registry:hover {
+            background: #FF8C00;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 153, 0, 0.4);
+        }
+
+        .btn-registry:active {
+            transform: translateY(-1px);
+        }
+
         .welcome-footer {
             text-align: center;
             padding-top: 20px;
@@ -262,7 +282,7 @@
 <body>
     <div class="welcome-container">
         <div class="welcome-header">
-            <h1>Baby Shaad!</h1>
+            <h1>Baby Shower!</h1>
             <p>A celebration of new beginnings and the mother-to-be</p>
         </div>
 
@@ -316,6 +336,9 @@
                 <button onclick="window.location.href='/rsvp'" class="btn btn-primary">
                     💌 RSVP Now
                 </button>
+                <a href="https://www.amazon.com/baby-reg/tiffany-islam-may-2026-roundrock/3FNQ6PRNHOO6N?ref_=cm_sw_r_cp_ud_dp_XTZYZ6W8MMJBQP5D3G7K" target="_blank" rel="noopener" class="btn btn-registry">
+                    🛒 Baby Registry
+                </a>
                 <button onclick="window.location.href='/my-rsvp'" class="btn btn-secondary">
                     🔍 View or Edit Your RSVP
                 </button>
