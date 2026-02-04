@@ -1,0 +1,295 @@
+/* Welcome Page */
+.welcome-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 700px;
+    width: 100%;
+    animation: slideUp 0.6s ease-out;
+}
+
+.welcome-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px 25px;
+    text-align: center;
+    position: relative;
+}
+
+.welcome-header::before {
+    content: '👶💕';
+    font-size: 70px;
+    display: block;
+    margin-bottom: 8px;
+    animation: bounce 2s infinite;
+}
+
+.welcome-header h1 {
+    font-family: 'Style Script', cursive;
+    font-size: 48px;
+    margin-bottom: 4px;
+    font-weight: 400;
+}
+
+.welcome-header p {
+    font-size: 15px;
+    opacity: 0.95;
+    line-height: 1.5;
+}
+
+.welcome-content {
+    padding: 25px 22px;
+}
+
+.welcome-content h2 {
+    color: #333;
+    font-family: 'Style Script', cursive;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.welcome-message {
+    color: #666;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.welcome-details {
+    background: #f8f9fa;
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-left: 4px solid #667eea;
+}
+
+.detail-item {
+    display: flex;
+    align-items: start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.detail-icon {
+    font-size: 22px;
+    min-width: 28px;
+    flex-shrink: 0;
+}
+
+.detail-text {
+    color: #555;
+    line-height: 1.6;
+    flex: 1;
+    min-width: 0;
+}
+
+.detail-text strong {
+    color: #333;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.date-time-box {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+    padding: 14px 16px;
+    border-left: 3px solid #667eea;
+    border-radius: 6px;
+    margin-top: 6px;
+    margin-left: -16px;
+    margin-right: -5px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.date-display {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+.time-display {
+    font-size: 13px;
+    color: #666;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #f0f0f0;
+    color: #333;
+    border: 2px solid #e0e0e0;
+}
+
+.btn-secondary:hover {
+    background: #e8e8e8;
+    border-color: #667eea;
+}
+
+.btn-registry {
+    background: #FF9900;
+    color: white;
+    border: none;
+}
+
+.btn-registry:hover {
+    background: #FF8C00;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 153, 0, 0.4);
+}
+
+.btn-registry:active {
+    transform: translateY(-1px);
+}
+
+.welcome-footer {
+    text-align: center;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+    color: #999;
+    font-size: 13px;
+}
+
+.emoji-divider {
+    text-align: center;
+    font-size: 18px;
+    margin: 12px 0;
+    opacity: 0.6;
+}
+
+/* Page background */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100dvh;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    overscroll-behavior: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+@media (max-width: 600px) {
+    .welcome-container {
+        border-radius: 12px;
+        margin: auto;
+    }
+
+    .welcome-header {
+        padding: 25px 18px;
+    }
+
+    .welcome-header h1 {
+        font-size: 28px;
+    }
+
+    .welcome-header::before {
+        font-size: 55px;
+        margin-bottom: 8px;
+    }
+
+    .welcome-content {
+        padding: 20px 16px;
+    }
+
+    .welcome-content h2 {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    .welcome-message {
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .welcome-details {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+
+    .detail-item {
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    .detail-icon {
+        font-size: 20px;
+        min-width: 24px;
+    }
+
+    .detail-text strong {
+        margin-bottom: 2px;
+    }
+
+    .date-time-box {
+        padding: 10px;
+        margin-top: 4px;
+    }
+
+    .date-display {
+        font-size: 14px;
+    }
+
+    .time-display {
+        font-size: 12px;
+    }
+
+    .btn {
+        padding: 11px 20px;
+        font-size: 14px;
+    }
+
+    .emoji-divider {
+        margin: 10px 0;
+        font-size: 16px;
+    }
+
+    .action-buttons {
+        gap: 10px;
+    }
+
+    .welcome-footer {
+        padding-top: 12px;
+    }
+}

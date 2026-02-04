@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Shower - You're Invited!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Style+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/intro.css') }}">
+</head>
+<body>
+    <div class="intro-container">
+        <span class="intro-emoji">👶💕</span>
+        <h1 class="intro-title">Baby Shower</h1>
+        <p class="intro-subtitle">You're Invited!</p>
+        <div class="intro-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <script>
+        // Redirect to welcome page after 2 seconds
+        setTimeout(() => {
+            window.location.href = '/welcome';
+        }, 2000);
+    </script>
+</body>
+</html>

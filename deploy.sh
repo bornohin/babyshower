@@ -22,11 +22,14 @@ if [ -z "$PROJECT_ID" ]; then
 fi
 
 echo "📦 GCP Project: $PROJECT_ID"
-echo "🚀 Deploying to Cloud Run..."
+IMAGE_TAG="gcr.io/$PROJECT_ID/baby-shower-rsvp:latest"
 
-# Deploy to Cloud Run
+echo "🔨 Building container image..."
+gcloud builds submit --tag $IMAGE_TAG .
+
+echo "🚀 Deploying to Cloud Run..."
 gcloud run deploy baby-shower-rsvp \
-    --source . \
+    --image $IMAGE_TAG \
     --platform managed \
     --region us-central1 \
     --allow-unauthenticated \
