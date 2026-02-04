@@ -170,7 +170,7 @@ def get_calendar_event():
             f"SUMMARY:{event_title}",
             f"LOCATION:{event_location}",
             f"DESCRIPTION:{event_description}",
-            "URL:https://babyshower.tomislam.com",
+            "URL:https://babyshower.deviantbd.com",
             "STATUS:CONFIRMED",
             "SEQUENCE:0",
             "END:VEVENT",
