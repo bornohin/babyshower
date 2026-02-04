@@ -1,32 +1,23 @@
 import os
-import json
 from datetime import datetime
 from flask import Flask, render_template, request, jsonify, send_file
 from io import BytesIO
+from google.cloud import firestore
 
 app = Flask(__name__)
 
-# Configuration
-RESPONSES_FILE = 'responses.json'
+# Initialize Firestore client
+db = firestore.Client()
+rsvps_ref = db.collection('rsvps')
+
 PORT = int(os.environ.get('PORT', 8080))
 
-# Load responses from file
-def load_responses():
-    if os.path.exists(RESPONSES_FILE):
-        try:
-            with open(RESPONSES_FILE, 'r') as f:
-                return json.load(f)
-        except:
-            return []
-    return []
-
-# Save responses to file
-def save_responses(responses):
-    with open(RESPONSES_FILE, 'w') as f:
-        json.dump(responses, f, indent=2)
-
-# In-memory store
-responses = load_responses()
+def get_all_responses():
+    """Gets all responses from the 'rsvps' collection."""
+    responses = []
+    for doc in rsvps_ref.stream():
+        responses.append(doc.to_dict())
+    return responses
 
 @app.route('/')
 def index():
@@ -70,9 +61,6 @@ def submit_rsvp():
         except (ValueError, TypeError):
             return jsonify({'error': 'Invalid number of guests'}), 400
         
-        # Check if response already exists
-        existing_index = next((i for i, r in enumerate(responses) if r.get('email', '').lower() == email), None)
-        
         rsvp = {
             'name': data.get('name').strip(),
             'email': email,
@@ -84,16 +72,10 @@ def submit_rsvp():
             'timestamp': datetime.now().isoformat()
         }
         
-        if existing_index is not None:
-            # Update existing response
-            responses[existing_index] = rsvp
-            save_responses(responses)
-            return jsonify({'success': True, 'message': 'RSVP updated!'}), 200
-        else:
-            # Add new response
-            responses.append(rsvp)
-            save_responses(responses)
-            return jsonify({'success': True, 'message': 'RSVP received!'}), 201
+        # Use email as the document ID
+        rsvps_ref.document(email).set(rsvp)
+        
+        return jsonify({'success': True, 'message': 'RSVP received/updated!'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
@@ -101,9 +83,9 @@ def submit_rsvp():
 def get_rsvp(email):
     try:
         email_lower = email.strip().lower()
-        rsvp = next((r for r in responses if r.get('email', '').lower() == email_lower), None)
-        if rsvp:
-            return jsonify({'found': True, 'rsvp': rsvp}), 200
+        doc = rsvps_ref.document(email_lower).get()
+        if doc.exists:
+            return jsonify({'found': True, 'rsvp': doc.to_dict()}), 200
         return jsonify({'found': False, 'message': 'No RSVP found for this email'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 400
@@ -111,21 +93,15 @@ def get_rsvp(email):
 @app.route('/api/rsvp/<email>', methods=['DELETE'])
 def withdraw_rsvp(email):
     try:
-        global responses
         email_lower = email.strip().lower()
-        original_count = len(responses)
-        responses = [r for r in responses if r.get('email', '').lower() != email_lower]
-        
-        if len(responses) < original_count:
-            save_responses(responses)
-            return jsonify({'success': True, 'message': 'RSVP withdrawn'}), 200
-        return jsonify({'error': 'RSVP not found'}), 404
+        rsvps_ref.document(email_lower).delete()
+        return jsonify({'success': True, 'message': 'RSVP withdrawn'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
 @app.route('/api/responses', methods=['GET'])
 def get_responses():
-    # For demo/admin purposes (remove or protect in production)
+    responses = get_all_responses()
     return jsonify({
         'total': len(responses),
         'attending': sum(1 for r in responses if r.get('attending')),
@@ -136,6 +112,7 @@ def get_responses():
 
 @app.route('/dashboard')
 def dashboard():
+    responses = get_all_responses()
     stats = {
         'total': len(responses),
         'attending': sum(1 for r in responses if r.get('attending')),
@@ -189,11 +166,11 @@ def get_calendar_event():
             f"UID:{event_uid}",
             f"DTSTAMP:{now.strftime('%Y%m%dT%H%M%SZ')}",
             "DTSTART:20260215T130000",
-            "DTEND:20260215T160000",
+            "DTEND:20260215T170000",
             f"SUMMARY:{event_title}",
             f"LOCATION:{event_location}",
             f"DESCRIPTION:{event_description}",
-            "URL:https://babyshower.deviantbd.com",
+            "URL:https://babyshower.tomislam.com",
             "STATUS:CONFIRMED",
             "SEQUENCE:0",
             "END:VEVENT",
@@ -220,4 +197,4 @@ def health():
     return jsonify({'status': 'healthy'}), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=PORT, debug=False)
+    app.run(host='0.0.0.0', port=PORT, debug=True)

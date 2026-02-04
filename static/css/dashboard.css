@@ -64,6 +64,12 @@ body {
     background: rgba(255, 255, 255, 0.3);
 }
 
+.dashboard-content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 .responses-section {
     padding: 0 20px 20px;
 }

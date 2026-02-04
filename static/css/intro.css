@@ -54,6 +54,9 @@
 .intro-container {
     text-align: center;
     animation: fadeIn 0.8s ease-out;
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .intro-emoji {
